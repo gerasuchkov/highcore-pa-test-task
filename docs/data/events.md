@@ -2,7 +2,7 @@
 
 Сырой поток событий — это длинная таблица, в которой каждая строка соответствует одному событию игрока. Формат близок к Firebase / GA4: у каждого события есть `event_name`, `event_timestamp`, `user_pseudo_id` и набор параметров `event_params` в виде `repeated struct{key, value:struct{string_value, int_value, double_value}}`.
 
-Все события несут общие параметры, описывающие контекст пользователя на момент события: `platform`, `country`, `app_version`, `install_source`. Дополнительные параметры специфичны для конкретного типа события и описаны ниже.
+Все события включают общие параметры, описывающие контекст пользователя на момент события: `platform`, `country`, `app_version`, `install_source`. Дополнительные параметры специфичны для конкретного типа события и описаны ниже.
 
 ## Список событий
 
@@ -20,7 +20,7 @@
 | `level_fail` | Игрок провалил уровень и вышел | `session_id`, `level_id`, `time_seconds` |
 | `iap_view` | Игроку показано предложение покупки | `session_id`, `iap_id`, `price_usd` |
 | `iap_initiate` | Игрок инициировал покупку (нажал «купить») | `session_id`, `iap_id`, `price_usd` |
-| `purchase` | Покупка успешно завершена | `session_id`, `iap_id`, `iap_type`, `price_usd`, `currency`, `transaction_id` |
+| `purchase` | Покупка успешно завершена и провалидирована | `session_id`, `iap_id`, `iap_type`, `price_usd`, `currency`, `transaction_id` |
 | `refund` | Возврат покупки (приходит позже самой покупки) | те же поля, что и у `purchase`, плюс `refund_reason` |
 | `ad_impression` | Игроку показана реклама | `session_id`, `ad_unit` (`rewarded` / `interstitial` / `banner`) |
 
@@ -54,15 +54,6 @@
 | `refund_reason` | string | `refund` | Причина возврата (`user_request`, `chargeback`, `policy`) |
 | `ad_unit` | string | `ad_impression` | Тип рекламной единицы |
 
-## Частоты событий
-
-Это синтетический поток на ~200 000 пользователей за 60 дней наблюдения. Порядок величины:
-
-- `first_open` — по одному на каждого пользователя
-- `tutorial_*` — у большинства пользователей (некоторые дропают туториал на разных шагах)
-- `session_start` — несколько на пользователя в день
-- `level_start` / `level_complete` / `level_fail` — основная часть потока
-- `purchase` / `refund` / `iap_*` — небольшая доля (платящих игроков мало)
 
 ## Как читать nested-параметры
 
