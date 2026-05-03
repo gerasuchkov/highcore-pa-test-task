@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Data (downloaded by prepare_data.py)
+data/*.parquet
+data/*.duckdb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.claude/
