@@ -13,8 +13,7 @@ import time
 import gdown
 
 
-# TODO(highcore): replace with the public Google Drive file id of events.parquet
-GDRIVE_FILE_ID = "REPLACE_WITH_REAL_FILE_ID"
+GDRIVE_FILE_ID = "1v_X1FpOvk3GrZKQZRo2vLZYyqWi5E45P"
 GDRIVE_URL = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
