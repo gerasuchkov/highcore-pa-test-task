@@ -4,7 +4,7 @@
 
 ## Требования
 
-- Python 3.11+
+- Python 3.10+
 - ~500 MB свободного места на диске
 - `make` (опционально)
 
@@ -20,10 +20,12 @@ cd highcore-pa-test-task
 2. Создай виртуальное окружение и установи зависимости:
 
 ```bash
-python3.11 -m venv .venv     # или python3.12 / python3.13
+python3 -m venv .venv
 source .venv/bin/activate
 make setup                   # pip install -r requirements.txt
 ```
+
+Все дальнейшие команды `make` выполняй в этом активированном окружении — Makefile использует `python`/`pip` из него.
 
 3. Для получения датасета выбери один из двух вариантов:
 
@@ -32,9 +34,9 @@ make setup                   # pip install -r requirements.txt
 ```bash
 make download
 ```
-Либо скачай напрямую https://drive.google.com/file/d/1v_X1FpOvk3GrZKQZRo2vLZYyqWi5E45P/view?usp=sharing
+Либо скачай напрямую https://drive.google.com/file/d/1v_X1FpOvk3GrZKQZRo2vLZYyqWi5E45P/view?usp=sharing и положи файл как `data/events.parquet`.
 
-Скачивает `data/events.parquet` (~120 MB) с Google Диска. Дальше работаешь с ним любым удобным инструментом: `pandas`, любая БД (мы предлагем сетап с `duckdb`, BigQuery sandbox, что угодно).
+Скачивает `data/events.parquet` (~120 MB, MD5 `74383bd82304c04e8a3f7deb4c5fbcf2`) с Google Диска. Дальше работаешь с ним любым удобным инструментом: `pandas`, `polars`, `duckdb` поверх parquet, BigQuery sandbox, что угодно.
 
 ### Вариант 2 — parquet + готовая DuckDB
 
@@ -73,7 +75,7 @@ print(con.execute('SELECT event_name, COUNT(*) FROM raw.events GROUP BY 1').fetc
 │       └── experiments.md     # описание текущего A/B-теста
 ├── analysis/                  # сюда складываешь итоговый код
 ├── skills/                    # сюда — кастомный скилл
-└── data/                      # здесь будет хранится events.parquet и events.duckdb в случае работы с ним
+└── data/                      # сюда положатся events.parquet и events.duckdb
 ```
 
 ## С чего начать
