@@ -13,7 +13,7 @@
 1. Клонируй репозиторий и перейди в него:
 
 ```bash
-git clone <url>
+git clone https://github.com/gerasuchkov/highcore-pa-test-task.git
 cd highcore-pa-test-task
 ```
 
