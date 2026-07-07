@@ -71,8 +71,7 @@ print(con.execute('SELECT event_name, COUNT(*) FROM raw.events GROUP BY 1').fetc
 │       ├── events.md          # каталог событий и параметров
 │       ├── iap_catalog.md     # каталог IAP-позиций и их типов
 │       ├── tutorial_design.md # структура туториала и развилка
-│       ├── ua_sources.md      # описание источников привлечения
-│       └── experiments.md     # описание текущего A/B-теста
+│       └── ua_sources.md      # описание источников привлечения
 ├── analysis/                  # сюда складываешь свои запросы и расчёты
 ├── skills/                    # сюда кладёшь свой скилл, если будешь его делать
 └── data/                      # сюда положатся events.parquet и events.duckdb
@@ -82,4 +81,4 @@ print(con.execute('SELECT event_name, COUNT(*) FROM raw.events GROUP BY 1').fetc
 
 1. **`TEST_ASSIGNMENT.md`**: что именно нужно сделать.
 2. **`docs/data/events.md`**: формат событий, какие event_name есть, какие параметры.
-3. **Остальные `docs/data/*.md`**: продуктовый контекст (каталог IAP, устройство туториала, каналы привлечения, описание A/B-теста).
+3. **Остальные `docs/data/*.md`**: продуктовый контекст (каталог IAP, устройство туториала, каналы привлечения).

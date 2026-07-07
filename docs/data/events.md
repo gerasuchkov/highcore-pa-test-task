@@ -9,7 +9,6 @@
 | event_name | Когда записывается | Дополнительные параметры |
 |---|---|---|
 | `first_open` | Первый запуск приложения после установки | нет (только общие) |
-| `experiment_assignment` | Сразу после `first_open`, если игрок попал в активный эксперимент | `experiment_id`, `variant` |
 | `session_start` | Начало пользовательской сессии | `session_id` |
 | `tutorial_start` | Старт обучающего туториала | `session_id` |
 | `tutorial_step` | Прохождение очередного шага туториала | `session_id`, `step` (1..7) |
@@ -39,9 +38,7 @@
 
 | параметр | тип | присутствует в событиях | описание |
 |---|---|---|---|
-| `session_id` | string | в большинстве событий, кроме `first_open` и `experiment_assignment` | Идентификатор пользовательской сессии (составной: `user_pseudo_id_d{day}_s{seq}`) |
-| `experiment_id` | string | `experiment_assignment` | Идентификатор эксперимента (см. `experiments.md`) |
-| `variant` | string | `experiment_assignment` | Группа эксперимента (`control` или `treatment`) |
+| `session_id` | string | в большинстве событий, кроме `first_open` | Идентификатор пользовательской сессии (составной: `user_pseudo_id_d{day}_s{seq}`) |
 | `step` | int | `tutorial_step` | Номер шага туториала (1..7) |
 | `branch` | string | `tutorial_branch_chosen` | Выбранная ветка развилки (см. `tutorial_design.md`) |
 | `level_id` | int | `level_start`, `level_complete`, `level_fail` | Идентификатор уровня |
