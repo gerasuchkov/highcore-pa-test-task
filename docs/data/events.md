@@ -1,14 +1,14 @@
 # Каталог событий
 
-Сырой поток событий — это длинная таблица, в которой каждая строка соответствует одному событию игрока. Формат близок к Firebase / GA4: у каждого события есть `event_name`, `event_timestamp`, `user_pseudo_id` и набор параметров `event_params` в виде `repeated struct{key, value:struct{string_value, int_value, double_value}}`.
+Сырой поток событий устроен как длинная таблица: каждая строка соответствует одному событию игрока. Формат близок к Firebase / GA4: у каждого события есть `event_name`, `event_timestamp`, `user_pseudo_id` и набор параметров `event_params` в виде `repeated struct{key, value:struct{string_value, int_value, double_value}}`.
 
-Все события включают общие параметры, описывающие контекст пользователя на момент события: `platform`, `country`, `app_version`, `install_source`. Дополнительные параметры специфичны для конкретного типа события и описаны ниже.
+Все события включают общие параметры, описывающие контекст пользователя на момент события: `platform`, `country`, `app_version`, `install_source`. Остальные параметры зависят от типа события и описаны ниже.
 
 ## Список событий
 
-| event_name | Когда эмитится | Специфичные параметры |
+| event_name | Когда записывается | Дополнительные параметры |
 |---|---|---|
-| `first_open` | Первый запуск приложения после установки | — (только общие) |
+| `first_open` | Первый запуск приложения после установки | нет (только общие) |
 | `experiment_assignment` | Сразу после `first_open`, если игрок попал в активный эксперимент | `experiment_id`, `variant` |
 | `session_start` | Начало пользовательской сессии | `session_id` |
 | `tutorial_start` | Старт обучающего туториала | `session_id` |
@@ -19,8 +19,8 @@
 | `level_complete` | Уровень успешно пройден | `session_id`, `level_id`, `time_seconds` |
 | `level_fail` | Игрок провалил уровень и вышел | `session_id`, `level_id`, `time_seconds` |
 | `iap_view` | Игроку показано предложение покупки | `session_id`, `iap_id`, `price_usd` |
-| `iap_initiate` | Игрок инициировал покупку (нажал «купить») | `session_id`, `iap_id`, `price_usd` |
-| `purchase` | Покупка успешно завершена и провалидирована | `session_id`, `iap_id`, `iap_type`, `price_usd`, `currency`, `transaction_id` |
+| `iap_initiate` | Игрок начал покупку (нажал «купить») | `session_id`, `iap_id`, `price_usd` |
+| `purchase` | Покупка успешно завершена и подтверждена | `session_id`, `iap_id`, `iap_type`, `price_usd`, `currency`, `transaction_id` |
 | `refund` | Возврат покупки (приходит позже самой покупки) | те же поля, что и у `purchase`, плюс `refund_reason` |
 | `ad_impression` | Игроку показана реклама | `session_id`, `ad_unit` (`rewarded` / `interstitial` / `banner`) |
 
@@ -35,7 +35,7 @@
 | `app_version` | string | Версия мобильного клиента (например, `16.2.0` для iOS) |
 | `install_source` | string | Источник установки (см. `ua_sources.md`) |
 
-## Специфичные параметры
+## Параметры конкретных событий
 
 | параметр | тип | присутствует в событиях | описание |
 |---|---|---|---|
@@ -54,8 +54,7 @@
 | `refund_reason` | string | `refund` | Причина возврата (`user_request`, `chargeback`, `policy`) |
 | `ad_unit` | string | `ad_impression` | Тип рекламной единицы |
 
-
-## Как читать nested-параметры
+## Как читать вложенные параметры
 
 В DuckDB параметры события можно достать так:
 
@@ -67,4 +66,4 @@ FROM raw.events
 WHERE event_name = 'level_complete';
 ```
 
-В BigQuery эквивалент через `UNNEST(event_params)` плюс `WHERE key = 'level_id'`.
+В BigQuery то же самое делается через `UNNEST(event_params)` плюс `WHERE key = 'level_id'`.
